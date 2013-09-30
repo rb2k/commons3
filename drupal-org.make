@@ -127,6 +127,10 @@ projects[entityreference][download][url] = "http://git.drupal.org/project/entity
 projects[entityreference][download][branch] = "7.x-1.x"
 projects[entityreference][download][revision] = "1c176daef3e7483389cbebeb34784b3af6521f7f"
 
+projects[entity_translation][type] = "module"
+projects[entity_translation][subdir] = "contrib"
+projects[entity_translation][version] = "1.0-beta3"
+
 ; Profile has no recommended release
 projects[edit_profile][type] = "module"
 projects[edit_profile][subdir] = "contrib"
@@ -164,6 +168,17 @@ projects[http_client][type] = "module"
 projects[http_client][subdir] = "contrib"
 projects[http_client][version] = "2.4"
 
+projects[i18n][type] = "module"
+projects[i18n][subdir] = "contrib"
+projects[i18n][version] = "1.10"
+
+projects[i18nviews][type] = "module"
+projects[i18nviews][subdir] = "contrib"
+projects[i18nviews][download][type] = "git"
+projects[i18nviews][download][url] = "http://git.drupal.org/project/i18nviews.git"
+projects[i18nviews][download][branch] = "7.x-3.x"
+projects[i18nviews][download][revision] = "26bd52c"
+
 projects[admin_icons][type] = "module"
 projects[admin_icons][subdir] = "contrib"
 projects[admin_icons][download][type] = "git"
@@ -171,9 +186,17 @@ projects[admin_icons][download][url] = "http://git.drupal.org/project/admin_icon
 projects[admin_icons][download][branch] = "7.x-1.x"
 projects[admin_icons][download][revision] = "60d9f28801533fecc92216a60d444d89d80e7611"
 
+projects[l10n_update][type] = "module"
+projects[l10n_update][subdir] = "contrib"
+projects[l10n_update][version] = "1.0-beta3"
+
 projects[libraries][type] = "module"
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.1"
+
+projects[lingotek][type] = "module"
+projects[lingotek][subdir] = "contrib"
+projects[lingotek][version] = "4.02"
 
 projects[link][type] = "module"
 projects[link][subdir] = "contrib"
@@ -191,12 +214,13 @@ projects[message][version] = "1.9"
 ; http://drupal.org/node/1920560#comment-7080942
 projects[message][patch][] = "http://drupal.org/files/1920560-message-access-alterable.patch"
 
+; Add support for the undefined language.
+; http://drupal.org/node/2006702#comment-7842259
+projects[message][patch][] = "http://drupal.org/files/message_field_undefined-lang.2006702-14.patch"
+
 projects[message_notify][type] = "module"
 projects[message_notify][subdir] = "contrib"
-projects[message_notify][download][type] = "git"
-projects[message_notify][download][url] = "http://git.drupal.org/project/message_notify.git"
-projects[message_notify][download][branch] = "7.x-2.x"
-projects[message_notify][download][revision] = "e546b0a6e3d2dfd48f4fd3a4d45806c066c9a9bc"
+projects[message_notify][version] = "2.5"
 
 projects[message_subscribe][type] = "module"
 projects[message_subscribe][subdir] = "contrib"
@@ -293,6 +317,10 @@ projects[pm_existing_pages][type] = "module"
 projects[pm_existing_pages][subdir] = "contrib"
 projects[pm_existing_pages][version] = "1.4"
 
+projects[potx][type] = "module" 
+projects[potx][subdir] = "contrib"
+projects[potx][version] = "1.0"
+
 projects[privatemsg][type] = "module"
 projects[privatemsg][subdir] = "contrib"
 projects[privatemsg][version] = "1.4"
@@ -325,7 +353,7 @@ projects[radioactivity][patch][] = "http://drupal.org/files/radioactivity-memcac
 
 projects[r4032login][type] = "module"
 projects[r4032login][subdir] = "contrib"
-projects[r4032login][version] = "1.5"
+projects[r4032login][version] = "1.6"
 
 projects[rate][type] = "module"
 projects[rate][subdir] = "contrib"
@@ -345,7 +373,7 @@ projects[registration][version] = "1.2"
 
 projects[rules][type] = "module"
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.3"
+projects[rules][version] = "2.5"
 
 projects[search_facetapi][type] = "module"
 projects[search_facetapi][subdir] = "contrib"
@@ -380,11 +408,7 @@ projects[strongarm][download][revision] = "5a2326ba67e59923ecce63d9bb5e0ed6548ab
 
 projects[timeago][type] = "module"
 projects[timeago][subdir] = "contrib"
-projects[timeago][version] = "2.x-dev"
-projects[timeago][download][type] = "git"
-projects[timeago][download][url] = "http://git.drupal.org/project/timeago.git"
-projects[timeago][download][branch] = "7.x-2.x"
-projects[timeago][download][revision] = "768ea66"
+projects[timeago][version] = "2.2"
 
 ; Provide a dedicated date type:
 ; http://drupal.org/node/1427226#comment-6638836
@@ -397,6 +421,10 @@ projects[title][version] = "1.0-alpha7"
 projects[token][type] = "module"
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.5"
+
+projects[variable][type] = "module"
+projects[variable][subdir] = "contrib"
+projects[variable][version] = "2.3"
 
 projects[views][type] = "module"
 projects[views][subdir] = "contrib"

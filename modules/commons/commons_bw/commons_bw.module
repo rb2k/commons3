@@ -7,7 +7,9 @@ function commons_bw_system_info_alter(&$info, $file, $type) {
   if ($file->name == 'commons_bw') {
     foreach (node_type_get_types() as $node_type) {
       $type = $node_type->type;
-      $info['features']['field_instance'][] = "node-$type-title_field";
+      if (commons_bw_node_auto_title_instance($type)) {
+        $info['features']['field_instance'][] = "node-$type-title_field";  
+      }
     }
   }
 }
@@ -47,6 +49,20 @@ function commons_bw_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
+ * Implements hook_views_default_views_alter().
+ */
+function commons_bw_views_default_views_alter(&$views) {
+  // Add a unique pager ID to Commons BW views.
+  $i = 0;
+  foreach ($views as $view_id => $view) {
+    if (strpos($view_id, 'commons_bw_') === 0) {
+      $views[$view_id]->display['default']->display_options['pager']['options']['id'] = $i;
+      $i++;
+    }
+  }
+}
+
+/**
  * Implements hook_forms().
  *
  * The bundle is added to the partial node form ID, to prevent duplicate IDs on
@@ -71,6 +87,7 @@ function commons_bw_forms($form_id, $args) {
  */
 function commons_bw_partial_node_form($form, &$form_state, $bundle, $group_id = NULL) {
   global $user;
+  global $language;
 
   if (!$group_id) {
     // Reset the og_field_widget_form cache because otherwise it ignores
@@ -101,9 +118,21 @@ function commons_bw_partial_node_form($form, &$form_state, $bundle, $group_id = 
   $node = new stdClass();
   $node->type = $bundle;
   node_object_prepare($node);
-  $node->language = LANGUAGE_NONE;
 
-  field_attach_form('node', $node, $form, $form_state);
+  if (module_exists('locale')) {
+    if (locale_multilingual_node_type($node->type)) {
+      $node->language = $language->language;
+    }
+    else {
+      $default = language_default();
+      $node->language = $default->language;
+    }
+  }
+  else {
+    $node->language = LANGUAGE_NONE;
+  }
+
+  field_attach_form('node', $node, $form, $form_state, entity_language('node', $node));
 
   foreach(element_children($form) as $field_name) {
     if (empty($instances[$field_name])) {
@@ -184,12 +213,16 @@ function commons_bw_partial_node_form_after_build($form) {
   $id_suffix = '-' . str_replace('_', '-', $bundle);
 
   foreach(element_children($form) as $field_name) {
-    if (!empty($form[$field_name][LANGUAGE_NONE][0]['value']['#id'])) {
-      $form[$field_name][LANGUAGE_NONE][0]['value']['#id'] .= $id_suffix;
-    }
+    if (!empty($form[$field_name]['#language'])) {
+      $language = $form[$field_name]['#language'];
 
-    if (!empty($form[$field_name][LANGUAGE_NONE][0]['default']['#id'])) {
-      $form[$field_name][LANGUAGE_NONE][0]['default']['#id'] .= $id_suffix;
+      if (!empty($form[$field_name][$language][0]['value']['#id'])) {
+        $form[$field_name][$language][0]['value']['#id'] .= $id_suffix;
+      }
+
+      if (!empty($form[$field_name][$language][0]['default']['#id'])) {
+        $form[$field_name][$language][0]['default']['#id'] .= $id_suffix;
+      }
     }
   }
 
@@ -282,6 +315,16 @@ function commons_bw_get_tab_definitions($widget_type = 'group') {
   return $tabs;
 }
 
+
+/**
+ * Helper function to determine whether Commons_BW should define a title
+ * field instance on behalf of a content type.
+ */
+function commons_bw_node_auto_title_instance($node_type) {  
+  $commons_groups_entity_types = commons_groups_get_group_content_entity_types();
+  $return = isset($commons_groups_entity_types['node'][$node_type]['auto_title_instance']) ? $commons_groups_entity_types['node'][$node_type]['auto_title_instance'] : TRUE;
+  return $return;
+}
 /**
  * Provides a styled content creation dropdown widget for the 'all'
  * tab of the group homepage browsing widget.
